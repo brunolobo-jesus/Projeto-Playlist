@@ -50,18 +50,6 @@ def adicionar_musica(playlists):
     except ValueError:
         print("Entrada inválida.")
 
-def mostrar_playlists(playlists):
-    if not playlists:
-        print("Nenhuma playlist criada ainda.")
-    else:
-        for nome, musicas in playlists.items():
-            print(f"\nPlaylist: {nome}")
-            if musicas:
-                for i, musica in enumerate(musicas, start=1):
-                    print(f"  {i}. {musica[0]} - {musica[1]} ({musica[2]} min)")
-            else:
-                print("  (Vazia)")
-
 def remover_musica(playlists):
     nome_playlist = input("Digite o nome da playlist de onde deseja remover a música: ")
     if nome_playlist not in playlists:
@@ -96,12 +84,29 @@ def estatisticas_playlist(playlists):
         if not musicas:
             print("A playlist está vazia.")
             return
+        
+        total_playlists = len(playlists)
         total_musicas = len(musicas)
         duracao_total = sum(musica[2] for musica in musicas)
         print(f"\nEstatísticas da playlist '{nome}':")
+        print(f"Total de playlists já criadas: {total_playlists}")
         print(f"Total de músicas: {total_musicas}")
         print(f"Duração total: {duracao_total:.2f} min")
 
+def buscar_musica_por_palavra_chave(catalogo, palavra_chave):
+    palavra_chave = input("Digite a palavra-chave para buscar na música: ").lower()
+    resultados = []
+    for musica in catalogo.items():
+        titulo, artista, tempo = musica
+        if palavra_chave in titulo.lower() or palavra_chave in artista.lower():
+            resultados.append((musica))
+    if resultados:
+        print("Músicas encontradas:")
+        for musica in resultados:
+            print(f"- {titulo} - {artista} ({tempo} min)")
+    else:
+        print("Nenhuma música encontrada com essa palavra-chave.")
+        
 
 def menu():
     while True:
@@ -111,9 +116,9 @@ def menu():
         print("3 - Mostrar Playlists")
         print("4 - Mostrar Catálogo")
         print("5 - Remover Música da Playlist")
-        print("6  - Estatísticas da Playlist")
-        print("7- Sair")
-        escolha = input("Escolha uma opção (1-5): ")
+        print("6 - Estatísticas da Playlist")
+        print("7 - Sair")
+        escolha = input("Escolha uma opção (1-7): ")
 
         if escolha == '1':
             criar_playlist(playlists)
