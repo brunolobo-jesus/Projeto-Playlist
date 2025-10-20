@@ -67,7 +67,41 @@ def remover_musica(playlists):
     if nome_playlist not in playlists:
         print("Playlist não encontrada.")
         return
+    titulo= input("Digite o título da música que deseja remover: ")
+    for musica in playlists[nome_playlist]:
+        if musica[0].lower() == titulo.lower():
+            playlists[nome_playlist].remove(musica)
+            print(f"Música '{titulo}' removida da playlist '{nome_playlist}'!")
+            return
     
+def mostrar_playlists(playlists):
+    nome = input("Digite o nome da playlist que deseja ver: ")
+    if nome not in playlists:
+        print("Playlist não encontrada.")
+        return  
+    elif not playlists[nome]:
+        print("A playlist está vazia.")
+    else:
+        print(f"\n Musicas na playlist '{nome}':")
+        for musica in playlists[nome]:
+            print(f"- {musica[0]} - {musica[1]} ({musica[2]} min)")
+
+        
+def estatisticas_playlist(playlists):
+        nome = input("Digite o nome da playlist para ver as estatísticas: ")
+        if nome not in playlists:
+            print("Playlist não encontrada.")
+            return
+        musicas = playlists[nome]
+        if not musicas:
+            print("A playlist está vazia.")
+            return
+        total_musicas = len(musicas)
+        duracao_total = sum(musica[2] for musica in musicas)
+        print(f"\nEstatísticas da playlist '{nome}':")
+        print(f"Total de músicas: {total_musicas}")
+        print(f"Duração total: {duracao_total:.2f} min")
+
 
 def menu():
     while True:
@@ -76,7 +110,9 @@ def menu():
         print("2 - Adicionar Música à Playlist")
         print("3 - Mostrar Playlists")
         print("4 - Mostrar Catálogo")
-        print("5 - Sair")
+        print("5 - Remover Música da Playlist")
+        print("6  - Estatísticas da Playlist")
+        print("7- Sair")
         escolha = input("Escolha uma opção (1-5): ")
 
         if escolha == '1':
@@ -88,6 +124,10 @@ def menu():
         elif escolha == '4':
             mostrar_catalogo()
         elif escolha == '5':
+            remover_musica(playlists)
+        elif escolha == '6':
+            estatisticas_playlist(playlists)
+        elif escolha == '7':
             print("Saindo do programa.")
             break
         else:
