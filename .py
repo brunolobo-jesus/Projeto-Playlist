@@ -43,6 +43,9 @@ def adicionar_musica(playlists):
         numero_musica = int(input("Digite o número da música que deseja adicionar: "))
         if 1 <= numero_musica <= len(catalogo):
             musica = catalogo[numero_musica - 1]
+            if musica in playlists[nome_playlist]:
+                print("Essa música já está na playlist")
+                return
             playlists[nome_playlist].append(musica)
             print(f"Música '{musica[0]}' adicionada à playlist '{nome_playlist}'!")
         else:
@@ -87,10 +90,15 @@ def estatisticas_playlist(playlists):
         total_playlists = len(playlists)
         total_musicas = len(musicas)
         duracao_total = sum(musica[2] for musica in musicas)
+        musica_mais_longa = max(musicas)
+        titulo_mais_longo = musica_mais_longa[0]
+        duracao_mais_longa = musica_mais_longa[2]
+        
         print(f"\nEstatísticas da playlist '{nome}':")
         print(f"Total de playlists já criadas: {total_playlists}")
         print(f"Total de músicas: {total_musicas}")
         print(f"Duração total: {duracao_total:.2f} min")
+        print(f"Música mais longa: {titulo_mais_longo}, {duracao_mais_longa}min")
 
 def buscar_musica_por_palavra_chave():
     palavra_chave = input("Digite a palavra-chave para buscar na música: ").lower()
